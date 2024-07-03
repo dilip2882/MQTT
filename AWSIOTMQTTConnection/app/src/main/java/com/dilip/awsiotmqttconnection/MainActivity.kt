@@ -32,7 +32,7 @@ class MainActivity : ComponentActivity() {
         if (connectionStatus == AWSIotMqttClientStatusCallback.AWSIotMqttClientStatus.Connected) {
             Log.d("TAG", "Connected to AWS IoT")
             val topic = "sdk/test/java"
-            val payload = ""// Your payload data (e.g., JSON string)
+            val payload = // Your payload data (e.g., JSON string)
                 awsIotClient.publishString(topic, AWSIotMqttQos.QOS0, payload)
             Log.d("TAG", "Message sent")
             // ... (other functionality in your activity)
