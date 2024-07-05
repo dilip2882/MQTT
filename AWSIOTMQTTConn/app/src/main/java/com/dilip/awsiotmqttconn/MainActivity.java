@@ -25,9 +25,8 @@ public class MainActivity extends AppCompatActivity {
 
 // SampleUtil.java and its dependency PrivateKeyReader.java can be copied from the sample source code.
 // Alternatively, you could load key store directly from a file - see the example included in this README.
-        AWSIotMqttClient client = null;
         SampleUtil.KeyStorePasswordPair pair = SampleUtil.getKeyStorePasswordPair(certificateFile, privateKeyFile);
-        client = new AWSIotMqttClient(clientEndpoint, clientId, pair.keyStore, pair.keyPassword);
+        AWSIotMqttClient client = new AWSIotMqttClient(clientEndpoint, clientId, pair.keyStore, pair.keyPassword);
 
 // optional parameters can be set before connect()
         try {
