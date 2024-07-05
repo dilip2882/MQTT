@@ -32,7 +32,7 @@ public class MainActivity extends AppCompatActivity {
         try {
             client.connect();
         } catch (AWSIotException e) {
-//            throw new RuntimeException(e);
+            throw new RuntimeException(e);
         }
         Toast.makeText(this, "Connected!", Toast.LENGTH_SHORT).show();
         Log.d("MQTT", "Connected!");
