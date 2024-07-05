@@ -1,5 +1,3 @@
-package com.dilip.awsiotmqtt;
-
 /*
  * Copyright 2016 Amazon.com, Inc. or its affiliates. All Rights Reserved.
  *
@@ -14,6 +12,8 @@ package com.dilip.awsiotmqtt;
  * express or implied. See the License for the specific language governing
  * permissions and limitations under the License.
  */
+
+package com.dilip.awsiotmqttconn.sampleUtil;
 
 import java.io.BufferedInputStream;
 import java.io.DataInputStream;
@@ -76,7 +76,7 @@ public class SampleUtil {
     }
 
     public static KeyStorePasswordPair getKeyStorePasswordPair(final String certificateFile, final String privateKeyFile,
-                                                               String keyAlgorithm) {
+            String keyAlgorithm) {
         if (certificateFile == null || privateKeyFile == null) {
             System.out.println("Certificate or private key file missing");
             return null;

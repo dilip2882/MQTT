@@ -1,10 +1,9 @@
-package com.dilip.awsiotmqtt;
 /****************************************************************************
  * Amazon Modifications: Copyright 2016 Amazon.com, Inc. or its affiliates.
  * All Rights Reserved.
  *****************************************************************************
- * Copyright (c) 1998-2010 AOL Inc.
- *
+ * Copyright (c) 1998-2010 AOL Inc. 
+ * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -19,6 +18,8 @@ package com.dilip.awsiotmqtt;
  *
  ****************************************************************************/
 // http://oauth.googlecode.com/svn/code/branches/jmeter/jmeter/src/main/java/org/apache/jmeter/protocol/oauth/sampler/PrivateKeyReader.java
+
+package com.dilip.awsiotmqttconn.sampleUtil;
 
 import java.io.BufferedReader;
 import java.io.ByteArrayInputStream;
@@ -38,7 +39,7 @@ import org.apache.commons.codec.binary.Base64;
 
 /**
  * Class for reading RSA or ECC private key from PEM file.
- *
+ * 
  * It can read PEM files with PKCS#8 or PKCS#1 encodings. It doesn't support
  * encrypted PEM files.
  */
@@ -141,28 +142,28 @@ public class PrivateKeyReader {
 
     /**
      * Convert PKCS#1 encoded private key into RSAPrivateCrtKeySpec.
-     *
+     * 
      * <p/>
      * The ASN.1 syntax for the private key with CRT is
-     *
+     * 
      * <pre>
-     * --
+     * -- 
      * -- Representation of RSA private key with information for the CRT algorithm.
      * --
      * RSAPrivateKey ::= SEQUENCE {
-     *   version           Version,
+     *   version           Version, 
      *   modulus           INTEGER,  -- n
      *   publicExponent    INTEGER,  -- e
      *   privateExponent   INTEGER,  -- d
      *   prime1            INTEGER,  -- p
      *   prime2            INTEGER,  -- q
      *   exponent1         INTEGER,  -- d mod (p-1)
-     *   exponent2         INTEGER,  -- d mod (q-1)
+     *   exponent2         INTEGER,  -- d mod (q-1) 
      *   coefficient       INTEGER,  -- (inverse of q) mod p
-     *   otherPrimeInfos   OtherPrimeInfos OPTIONAL
+     *   otherPrimeInfos   OtherPrimeInfos OPTIONAL 
      * }
      * </pre>
-     *
+     * 
      * @param keyBytes
      *            PKCS#1 encoded key
      * @return KeySpec
@@ -201,15 +202,15 @@ public class PrivateKeyReader {
  * A bare-minimum ASN.1 DER decoder, just having enough functions to decode
  * PKCS#1 private keys. Especially, it doesn't handle explicitly tagged types
  * with an outer tag.
- *
+ * 
  * <p/>
  * This parser can only handle one layer. To parse nested constructs, get a new
  * parser for each layer using <code>Asn1Object.getParser()</code>.
- *
+ * 
  * <p/>
  * There are many DER decoders in JRE but using them will tie this program to a
  * specific JCE/JVM.
- *
+ * 
  * @author zhang
  *
  */
@@ -259,7 +260,7 @@ class DerParser {
 
     /**
      * Create a new DER decoder from an input stream.
-     *
+     * 
      * @param in
      *            The DER encoded stream
      */
@@ -267,7 +268,14 @@ class DerParser {
         this.in = in;
     }
 
-
+    /**
+     * Create a new DER decoder from a byte array.
+     * 
+     * @param The
+     *            encoded bytes
+     * @throws IOException
+     *             IOException resulted from invalid file IO
+     */
     public DerParser(byte[] bytes) throws IOException {
         this(new ByteArrayInputStream(bytes));
     }
@@ -276,7 +284,7 @@ class DerParser {
      * Read next object. If it's constructed, the value holds encoded content
      * and it should be parsed by a new parser from
      * <code>Asn1Object.getParser</code>.
-     *
+     * 
      * @return A object
      * @throws IOException
      *             IOException resulted from invalid file IO
@@ -302,7 +310,7 @@ class DerParser {
     /**
      * Decode the length of the field. Can only support length encoding up to 4
      * octets.
-     *
+     * 
      * <p/>
      * In BER/DER encoding, length can be encoded in 2 forms,
      * <ul>
@@ -313,7 +321,7 @@ class DerParser {
      * length octets. Second and following octets give the length, base 256,
      * most significant digit first.
      * </ul>
-     *
+     * 
      * @return The length as integer
      * @throws IOException
      *             IOException resulted from invalid file IO
@@ -348,7 +356,7 @@ class DerParser {
 /**
  * An ASN.1 TLV. The object is not parsed. It can only handle integers and
  * strings.
- *
+ * 
  * @author zhang
  *
  */
@@ -362,10 +370,10 @@ class Asn1Object {
     /**
      * Construct a ASN.1 TLV. The TLV could be either a constructed or primitive
      * entity.
-     *
+     * 
      * <p/>
      * The first byte in DER encoding is made of following fields,
-     *
+     * 
      * <pre>
      * -------------------------------------------------
      * |Bit 8|Bit 7|Bit 6|Bit 5|Bit 4|Bit 3|Bit 2|Bit 1|
@@ -373,14 +381,14 @@ class Asn1Object {
      * |  Class    | CF  |     +      Type             |
      * -------------------------------------------------
      * </pre>
-     *
+     * 
      * <ul>
      * <li>Class: Universal, Application, Context or Private
      * <li>CF: Constructed flag. If 1, the field is constructed.
      * <li>Type: This is actually called tag in ASN.1. It indicates data type
      * (Integer, String) or a construct (sequence, choice, set).
      * </ul>
-     *
+     * 
      * @param tag
      *            Tag or Identifier
      * @param length
@@ -413,7 +421,7 @@ class Asn1Object {
 
     /**
      * For constructed field, return a parser for its content.
-     *
+     * 
      * @return A parser for the construct.
      * @throws IOException
      *             IOException resulted from invalid file IO
@@ -427,7 +435,7 @@ class Asn1Object {
 
     /**
      * Get the value as integer
-     *
+     * 
      * @return BigInteger
      * @throws IOException
      *             IOException resulted from invalid file IO
@@ -441,7 +449,7 @@ class Asn1Object {
 
     /**
      * Get value as string. Most strings are treated as Latin-1.
-     *
+     * 
      * @return Java string
      * @throws IOException
      *             IOException resulted from invalid file IO
@@ -452,30 +460,30 @@ class Asn1Object {
 
         switch (type) {
 
-            // Not all are Latin-1 but it's the closest thing
-            case DerParser.NUMERIC_STRING:
-            case DerParser.PRINTABLE_STRING:
-            case DerParser.VIDEOTEX_STRING:
-            case DerParser.IA5_STRING:
-            case DerParser.GRAPHIC_STRING:
-            case DerParser.ISO646_STRING:
-            case DerParser.GENERAL_STRING:
-                encoding = "ISO-8859-1"; //$NON-NLS-1$
-                break;
+        // Not all are Latin-1 but it's the closest thing
+        case DerParser.NUMERIC_STRING:
+        case DerParser.PRINTABLE_STRING:
+        case DerParser.VIDEOTEX_STRING:
+        case DerParser.IA5_STRING:
+        case DerParser.GRAPHIC_STRING:
+        case DerParser.ISO646_STRING:
+        case DerParser.GENERAL_STRING:
+            encoding = "ISO-8859-1"; //$NON-NLS-1$
+            break;
 
-            case DerParser.BMP_STRING:
-                encoding = "UTF-16BE"; //$NON-NLS-1$
-                break;
+        case DerParser.BMP_STRING:
+            encoding = "UTF-16BE"; //$NON-NLS-1$
+            break;
 
-            case DerParser.UTF8_STRING:
-                encoding = "UTF-8"; //$NON-NLS-1$
-                break;
+        case DerParser.UTF8_STRING:
+            encoding = "UTF-8"; //$NON-NLS-1$
+            break;
 
-            case DerParser.UNIVERSAL_STRING:
-                throw new IOException("Invalid DER: can't handle UCS-4 string"); //$NON-NLS-1$
+        case DerParser.UNIVERSAL_STRING:
+            throw new IOException("Invalid DER: can't handle UCS-4 string"); //$NON-NLS-1$
 
-            default:
-                throw new IOException("Invalid DER: object is not a string"); //$NON-NLS-1$
+        default:
+            throw new IOException("Invalid DER: object is not a string"); //$NON-NLS-1$
         }
 
         return new String(value, encoding);
