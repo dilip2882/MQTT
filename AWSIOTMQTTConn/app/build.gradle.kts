@@ -1,14 +1,13 @@
 plugins {
     alias(libs.plugins.android.application)
-    alias(libs.plugins.jetbrains.kotlin.android)
 }
 
 android {
-    namespace = "com.dilip.awsiotmqtt"
+    namespace = "com.dilip.awsiotmqttconn"
     compileSdk = 34
 
     defaultConfig {
-        applicationId = "com.dilip.awsiotmqtt"
+        applicationId = "com.dilip.awsiotmqttconn"
         minSdk = 30
         targetSdk = 34
         versionCode = 1
@@ -30,24 +29,24 @@ android {
         sourceCompatibility = JavaVersion.VERSION_1_8
         targetCompatibility = JavaVersion.VERSION_1_8
     }
-    kotlinOptions {
-        jvmTarget = "1.8"
+
+    packagingOptions {
+        // Exclude the conflicting files
+        exclude("META-INF/DEPENDENCIES")
     }
+
+
 }
 
 dependencies {
 
-    implementation(libs.androidx.core.ktx)
-    implementation(libs.androidx.appcompat)
+    implementation(libs.appcompat)
     implementation(libs.material)
-    implementation(libs.androidx.activity)
-    implementation(libs.androidx.constraintlayout)
+    implementation(libs.activity)
+    implementation(libs.constraintlayout)
     testImplementation(libs.junit)
-    androidTestImplementation(libs.androidx.junit)
-    androidTestImplementation(libs.androidx.espresso.core)
+    androidTestImplementation(libs.ext.junit)
+    androidTestImplementation(libs.espresso.core)
 
-    implementation("com.amazonaws:aws-android-sdk-iot:2.75.2")
-    implementation(libs.aws.iot.device.sdk.java)
-
-
+    implementation("com.amazonaws:aws-iot-device-sdk-java:${rootProject.extra["awsIotDeviceSdkJavaVersion"]}")
 }
